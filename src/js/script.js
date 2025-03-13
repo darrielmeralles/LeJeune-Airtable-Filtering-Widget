@@ -49,11 +49,11 @@ switch (device) {
 //ADD MULTIPLE LINK SOURCE HERE
 dmAPI.runOnReady('init', function () {
 	dmAPI.loadScript('https://irt-cdn.multiscreensite.com/8914113fe39e47bcb3040f2b64f71b02/files/uploaded/paginates.min.js', function () {
-
-
+		console.log(serviceList, "serviceList")
+		paginate(serviceList);
 	})
 
-	console.log(serviceList, "serviceList")
+	
 })
 
 //CREATING DYNAMIC FILTER DROPDOWN
@@ -88,14 +88,26 @@ $('.filWrap select').change(function(){
     }
 
 	let filtered = multiFilter(serviceList, filters);
-
+	paginate(filtered);
 	console.log(filters, "filtered");
 	console.log(filtered, "filtered");
 
 });
 
 
-//FUNCTIONS
+//CREATE JOB LIST LAYOUT
+function markup(obj){
+    let j = `<div class="itemBox">
+                <h3 class="cs-name">${obj.name}</h3>
+                <p class="cs-name">${obj.address}</p>
+				<a href="${obj.website}" target="_blank">
+					<button class="btnLink">
+						<span class="text">Open Clinic</span>
+					</button>
+				</a>
+              </div>`
+    return j;
+}
 
 // CREATE DROPDOWN WITH DEFAULT OPTION
 function createFilterDropdown(arr, filter) {
@@ -116,14 +128,40 @@ function removeDuplicate(arr) {
 }
 
 //MULTIFILTER JS
-function multiFilter(arr,filters){
+function multiFilter(arr, filters) {
     const filterKeys = Object.keys(filters);
-    return arr.filter(function(eachObj){
-        return filterKeys.every(function(eachKey){
-        if (!filters[eachKey].length) {
-            return true; // passing an empty filter means that filter is ignored.
-        }
-        return filters[eachKey].includes(eachObj[eachKey]);
+    return arr.filter(function (eachObj) {
+        return filterKeys.every(function (eachKey) {
+            const filterValue = filters[eachKey];
+            if (!filterValue || filterValue.length === 0) {
+                return true; // Ignore empty filters
+            }
+            
+            if (eachKey === "specializations") {
+                // Split specializations into an array and trim spaces
+                const specializationsArray = eachObj[eachKey]
+                    .split(',')
+                    .map(s => s.trim());
+                return specializationsArray.includes(filterValue);
+            }
+            
+            return filterValue.includes(eachObj[eachKey]);
         });
+    });
+}
+
+//PAGINATION 
+function paginate(items){
+    $('.cs-ResPage').pagination({
+        dataSource: items,
+        pageSize:2,
+        callback: function(result, pagination) {
+            console.log(result)
+            let structure = '';
+			structure = result.map(i=>{
+				return markup(i);
+			 }).join("")
+            $(".itemWrapper").html(structure);
+        }
     });
 }

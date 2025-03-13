@@ -32,8 +32,8 @@ html {
 	/* display: block;
 	width: 100%; */
 	height: auto;
-	padding: 0;
-	margin: 0;
+	/* padding: 0;
+	margin: 0; */
 	line-height: 1.5em;
 	text-decoration: none;
 	box-sizing: border-box;
@@ -141,6 +141,28 @@ html {
     width: 100% ! important;
 	height: 40px;
 	padding: 10px !important;
+}
+.cs-ResPage {
+    background: red;
+    padding: 50px 20px;
+}
+.itemWrapper {
+    display: flex;
+	justify-content: flex-start;
+}
+.itemBox {
+    border: 1px solid #222222;
+	width: 33%;
+	padding: 20px;
+}
+.btnLink{
+	width: 150px;
+	height: 35px;
+	border-radius: 20px;
+	border: none;
+}
+.paginationjs {
+    margin-top: 30px;
 }
 
 /* desktop-tablet.css */
