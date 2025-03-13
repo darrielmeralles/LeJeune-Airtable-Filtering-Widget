@@ -29,8 +29,8 @@ html {
 .widgetName-Main-Container input,
 .widgetName-Main-Container select {
 	position: relative;
-	display: block;
-	width: 100%;
+	/* display: block;
+	width: 100%; */
 	height: auto;
 	padding: 0;
 	margin: 0;
@@ -128,6 +128,20 @@ html {
 /*End Error Handling*/
 
 /* - - - - - -  ADD CSS HERE - - - - - - */
+.innerFil {
+    display: flex;
+	justify-content: space-between;
+}
+
+.filWrap{
+    width: 25% ! important;
+	margin: 0 5px !important;
+}
+.filWrap select{
+    width: 100% ! important;
+	height: 40px;
+	padding: 10px !important;
+}
 
 /* desktop-tablet.css */
 @media (min-width: 875px) and (max-width: 1280px) {

@@ -14,9 +14,33 @@
   <body>
     <div class="widget-abc123">
       <div class="widgetName-Main-Container">
-        <h1>Widget Preview</h1>
-      </div>
-    </div>
+        <div class="cs-MainWrapper"> 
+          <div class="cs-FilterWrapper">
+              <div class="innerFil">
+                  <div class="filWrap">
+                      <select name="filAge" id="filAge">
+                      </select>
+                  </div>
+                  <div class="filWrap">
+                      <select name="filSpecialty" id="filSpecialty">
+                      </select>
+                  </div>
+                  <div class="filWrap">
+                      <select name="filHours" id="filHours">
+                      </select>
+                  </div>
+                  <div class="filWrap">
+                      <select name="filEmployType" id="filEmployType">
+                          <option value="" selected disabled hidden>Employment Type</option>
+                          <option value="">Any</option>
+                          <option value="Part time">Part Time</option>
+                          <option value="Full time">Full Time</option>
+                      </select>
+                  </div>
+              </div>
+          </div>
+          <div class="cs-ResultsWrapper"></div>
+        </div>
 
     <script src="https://code.jquery.com/jquery-3.1.0.js"></script>
     <script src="./src/js/main.js"></script>
