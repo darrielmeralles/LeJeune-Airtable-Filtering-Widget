@@ -74,11 +74,10 @@ switch (device) {
 		$(element).width("326px");
 }
 
-
 //ADD MULTIPLE LINK SOURCE HERE
 dmAPI.runOnReady('init', function () {
-	dmAPI.loadScript('https://irt-cdn.multiscreensite.com/8914113fe39e47bcb3040f2b64f71b02/files/uploaded/paginates.min.js', function () {
-		console.log(serviceList, "serviceList")
+	dmAPI.loadScript('https://irt-cdn.multiscreensite.com/fb4e9968cfa04831857624e26b678589/files/uploaded/paginates.min.js', function () {
+		console.log(serviceList, "serviceList");
 		paginate(serviceList);
 	})
 })
@@ -120,7 +119,6 @@ $('.filWrap select').change(function(){
 
 });
 
-
 // CREATE MARKUP
 function markup(obj) {
     // Split the address by ',,' and create <p> elements with icons for each
@@ -149,7 +147,7 @@ function createFilterDropdown(arr, filter, filtername) {
     const dropdown = $('#' + filter);
     dropdown.empty(); // Clear existing options
     dropdown.append(`<option value="" selected disabled hidden>${filtername}</option>`);
-    dropdown.append(`<option value="">Any</option>`);
+    dropdown.append(`<option value="">Any ${filtername}</option>`);
     arr.forEach(i => {
         dropdown.append(`<option value="${i}">${i}</option>`);
     });
