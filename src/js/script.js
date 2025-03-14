@@ -13,7 +13,7 @@ let data = {
 				hours: "2 - 5 days per month",
 				type: "Part time",
 				address:"34th Street & Civic Center Blvd. Philadelphia, PA 19104",
-				website:"www.chop.edu/centers-programs/trisomy-21-program"
+				website:"https://www.chop.edu/centers-programs/trisomy-21-program"
 			},
 			{
 				name: "Adult Down Syndrome Center of Western Pennsylvania",
@@ -23,6 +23,33 @@ let data = {
 				type: "Part time",
 				address:"200 Lothrop Street Pittsburg, PA 15213",
 				website:"https://www.upmc.com/services/adult-down-syndrome-center"
+			},
+			{
+				name: "Coordinated Treatment Center",
+				age: "Pediatric, Adolescent",
+				specializations: "O/S/P Therapy, Dietician, Social Worker",
+				hours: "1 day per month",
+				type: "Part time",
+				address:"736 Broadway N., Fargo, ND 58122",
+				website:"http://www.sanfordhealth.org/MedicalServices/DownSyndrome"
+			},
+			{
+				name: "CDRC Down Syndrome Program",
+				age: "Pediatric, Adolescent",
+				specializations: "O/S/P Therapy, Audiology",
+				hours: "2 - 5 days per month",
+				type: "Part time",
+				address:"Child Development and Rehabilitation Center 707 SW Gaines Street Portland, OR 97239OHSU,,Doernbecher Children’s Hospital 700 S.W. Campus Drive, 7th floor Portland, OR, 97239",
+				website:"http://www.ohsu.edu/xd/health/services/doernbecher/programs-services/down-syndrome.cfm"
+			},
+			{
+				name: "Division of Pediatric Genetics, Metabolism and Genomic Medicine",
+				age: "Pediatric",
+				specializations: "",
+				hours: "",
+				type: "",
+				address:"Genetics at Mott Children’s Hospital: 1540 E. Hospital Drive Level 6, Reception C. Ann Arbor, MI 48109,,Pediatric Genetics in Traverse City: Munson Medical Center, Specialty Clinic Building 106 S. Madison Traverse City, MI 49684,,Pediatric Genetics in Marquette, UP Health System: 850 W Baraga Ave Marquette, MI 49855",
+				website:"https://www.mottchildren.org/conditions-treatments/ped-genetics"
 			}
 		]
 	}
@@ -52,8 +79,6 @@ dmAPI.runOnReady('init', function () {
 		console.log(serviceList, "serviceList")
 		paginate(serviceList);
 	})
-
-	
 })
 
 //CREATING DYNAMIC FILTER DROPDOWN
@@ -61,10 +86,9 @@ let age = removeDuplicate(serviceList.map(a => a.age));
 let specializations = removeDuplicate(serviceList.map(a => a.specializations));
 let hours = removeDuplicate(serviceList.map(a => a.hours));
 
-createFilterDropdown(age ,'filAge');
-createFilterDropdown(specializations,'filSpecialty');
-createFilterDropdown(hours,'filHours');
-
+createFilterDropdown(age ,'filAge', "Age");
+createFilterDropdown(specializations,'filSpecialty', "Specialty");
+createFilterDropdown(hours,'filHours', "Hours");
 
 //FILTER ONCHANGE
 $('.filWrap select').change(function(){
@@ -95,36 +119,49 @@ $('.filWrap select').change(function(){
 });
 
 
-//CREATE JOB LIST LAYOUT
-function markup(obj){
+// CREATE MARKUP
+function markup(obj) {
+    // Split the address by ',,' and create <p> elements with icons for each
+    let addressArray = obj.address.split(',,')
+        .map(addr => `<div class="address-item"><i class="fa-solid fa-location-dot"></i> <p class="cs-name">${addr.trim()}</p></div>`)
+        .join('');
+
     let j = `<div class="itemBox">
                 <h3 class="cs-name">${obj.name}</h3>
-                <p class="cs-name">${obj.address}</p>
-				<a href="${obj.website}" target="_blank">
-					<button class="btnLink">
-						<span class="text">Open Clinic</span>
-					</button>
-				</a>
-              </div>`
+                <div class="contentWrapper">
+                    <div class="addWrapper">
+                        ${addressArray} <!-- Multiple addresses with icons -->
+                    </div>
+                    <a href="${obj.website}" target="_blank">
+                        <button class="btnLink">
+                            <span class="text">Open Clinic</span>
+                        </button>
+                    </a>
+                </div>
+              </div>`;
     return j;
 }
 
 // CREATE DROPDOWN WITH DEFAULT OPTION
-function createFilterDropdown(arr, filter) {
+function createFilterDropdown(arr, filter, filtername) {
     const dropdown = $('#' + filter);
     dropdown.empty(); // Clear existing options
-    dropdown.append('<option value="" selected disabled hidden>Select an Option</option>');
-    dropdown.append('<option value="">Any</option>');
+    dropdown.append(`<option value="" selected disabled hidden>${filtername}</option>`);
+    dropdown.append(`<option value="">Any</option>`);
     arr.forEach(i => {
         dropdown.append(`<option value="${i}">${i}</option>`);
     });
 }
 
-// REMOVE DUPLICATE AND SORT IN ARRAY
+// REMOVE DUPLICATE, SORT, AND REMOVE EMPTY VALUES IN ARRAY
 function removeDuplicate(arr) {
-    return Array.from(new Set(arr.flatMap(item => 
-        typeof item === 'string' ? item.split(',').map(s => s.trim()) : [item]
-    ))).sort();
+    return Array.from(new Set(
+        arr.flatMap(item => 
+            typeof item === 'string' 
+                ? item.split(',').map(s => s.trim()).filter(s => s !== "") // Remove blanks
+                : [item]
+        )
+    )).sort();
 }
 
 //MULTIFILTER JS
@@ -154,7 +191,7 @@ function multiFilter(arr, filters) {
 function paginate(items){
     $('.cs-ResPage').pagination({
         dataSource: items,
-        pageSize:2,
+        pageSize:5,
         callback: function(result, pagination) {
             console.log(result)
             let structure = '';

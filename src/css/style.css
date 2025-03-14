@@ -127,7 +127,11 @@ html {
 }
 /*End Error Handling*/
 
-/* - - - - - -  ADD CSS HERE - - - - - - */
+/* - - - - - -  ADD CSS HERE - - - - - - */ 
+
+.cs-MainWrapper {
+    padding: 40px 0 !important;
+}
 .innerFil {
     display: flex;
 	justify-content: space-between;
@@ -141,30 +145,71 @@ html {
     width: 100% ! important;
 	height: 40px;
 	padding: 10px !important;
+	border: 1px solid #c3c3c3;
 }
 .cs-ResPage {
-    background: red;
-    padding: 50px 20px;
+    /* background: #efefef; */
+    padding: 20px  0px;
 }
 .itemWrapper {
     display: flex;
-	justify-content: flex-start;
+    flex-wrap: wrap;
+    width: 100%;
 }
 .itemBox {
-    border: 1px solid #222222;
-	width: 33%;
-	padding: 20px;
+	display: block;
+	width: 31.2%;
+    /* width: 33.33%; */
+    position: relative;
+    margin: 10px;
+    padding: 20px;
+    box-sizing: border-box;
+	background-color: #ffffff;
+	transition: 0.5s ease-in-out;
+	border-radius: 5px;
+	-webkit-box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.25);
+    -moz-box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.25);
+    box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.25);
+}
+.itemBox:hover{
+	-webkit-box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.6);
+    -moz-box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.6);
+    box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.6);
 }
 .btnLink{
 	width: 150px;
 	height: 35px;
 	border-radius: 20px;
 	border: none;
+	cursor: pointer;
+	color: #ffffff;
+	transition: 0.5s ease-in-out;
+	background-color: #361FDD;
+}
+.btnLink:hover{
+	background-color: #1A0F67;
 }
 .paginationjs {
     margin-top: 30px;
 }
-
+.cs-name{
+	margin: 0 0 20px 0;
+}
+.address-item {
+    display: flex;
+}
+.address-item i {
+    margin-right: 10px;
+    margin-top: 5px;
+	color: #E41E12;
+}
+.paginationjs .paginationjs-pages li{
+	border: none !important;
+}
+.paginationjs .paginationjs-pages li.active>a{
+	background-color: #361FDD;
+	color: #ffffff
+}
 /* desktop-tablet.css */
 @media (min-width: 875px) and (max-width: 1280px) {
 
