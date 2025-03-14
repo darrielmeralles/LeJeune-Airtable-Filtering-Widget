@@ -57,6 +57,8 @@ let data = {
 
 let device = data.device;
 let serviceList = data.config.serviceList;
+// let layout = "grid";
+let layout = "list";
 
 let noCollectMessage = 'No data was found.' ///data.config.noCollectMessage
 let noCollectSubMessage = 'This will be hidden on preview and live site.' ///data.config.noCollectSubMessage
@@ -126,7 +128,7 @@ function markup(obj) {
         .map(addr => `<div class="address-item"><i class="fa-solid fa-location-dot"></i> <p class="cs-name">${addr.trim()}</p></div>`)
         .join('');
 
-    let j = `<div class="itemBox">
+    let j = `<div class="itemBox ${layout === 'grid' ? 'itemBox-1' : 'itemBox-2'}">
                 <h3 class="cs-name">${obj.name}</h3>
                 <div class="contentWrapper">
                     <div class="addWrapper">
@@ -167,22 +169,32 @@ function removeDuplicate(arr) {
 //MULTIFILTER JS
 function multiFilter(arr, filters) {
     const filterKeys = Object.keys(filters);
+
     return arr.filter(function (eachObj) {
         return filterKeys.every(function (eachKey) {
-            const filterValue = filters[eachKey];
+            const filterValue = filters[eachKey]; // Selected filter value
+            const objValue = eachObj[eachKey]; // Object's corresponding value
+
+            // Ignore filter if it's empty
             if (!filterValue || filterValue.length === 0) {
-                return true; // Ignore empty filters
+                return true;
             }
-            
-            if (eachKey === "specializations") {
-                // Split specializations into an array and trim spaces
-                const specializationsArray = eachObj[eachKey]
-                    .split(',')
-                    .map(s => s.trim());
-                return specializationsArray.includes(filterValue);
+
+            // Special handling for empty values in object
+            if (objValue === "" && filterValue !== "") {
+                return false; // Don't match empty values unless explicitly filtering for ""
             }
-            
-            return filterValue.includes(eachObj[eachKey]);
+
+            // Handle comma-separated "specializations" and "age"
+            if (eachKey === "specializations" || eachKey === "age") {
+                const valueArray = objValue
+                    ? objValue.split(',').map(s => s.trim()).filter(s => s !== "")
+                    : [];
+
+                return valueArray.includes(filterValue);
+            }
+
+            return filterValue.includes(objValue);
         });
     });
 }
@@ -198,7 +210,12 @@ function paginate(items){
 			structure = result.map(i=>{
 				return markup(i);
 			 }).join("")
-            $(".itemWrapper").html(structure);
+             console.log(layout, "layout");
+             if(layout === "grid"){
+                $(".itemWrapper").html(structure);
+             }else{
+                $(".itemWrapper-2").html(structure);
+             }
         }
     });
 }
