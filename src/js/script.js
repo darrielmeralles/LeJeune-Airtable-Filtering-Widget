@@ -74,6 +74,7 @@ switch (device) {
 		$(element).width("326px");
 }
 
+
 //ADD MULTIPLE LINK SOURCE HERE
 dmAPI.runOnReady('init', function () {
 	dmAPI.loadScript('https://irt-cdn.multiscreensite.com/fb4e9968cfa04831857624e26b678589/files/uploaded/paginates.min.js', function () {
